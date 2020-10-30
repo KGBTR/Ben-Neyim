@@ -1,0 +1,31 @@
+@mixin clickable {
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+@mixin border-radius($radius: 1em) {
+  border-radius: $radius;
+}
+
+@mixin background-image($image-url: url(), $width: 48px, $height: 48px) {
+  width: var($width);
+  height: var($height);
+
+  @include flex(row);
+  @include border-radius(1em);
+
+  background: {
+    image: var($image-url);
+    repeat: no-repeat;
+    position: center;
+    size: contain;
+  }
+}
+
+@mixin flex($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
