@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "docker-run",
+      "label": "docker-run: debug",
+      "dockerRun": {
+        // "command": "nest start --debug 0.0.0.0:9229",
+        "command": "yarn serve --debug 0.0.0.0:9229",
+        "containerName": "bulgurlumuyum-debug",
+        "image": "bulgurlumuyum:dev",
+        "os": "Linux",
+        "envFiles": [".env"],
+        "ports": [
+          {
+            "containerPort": 8080,
+            "hostPort": 8080,
+            "protocol": "tcp"
+          },
+          {
+            "containerPort": 8080,
+            "hostPort": 8080,
+            "protocol": "udp"
+          }
+        ],
+        "volumes": [
+          {
+            "containerPath": "/app",
+            "localPath": "${workspaceFolder}/app",
+            "permissions": "rw"
+          }
+        ],
+      },
+      "platform": "node",
+      "node": {
+        "enableDebugging": true
+      }
+    },
+  ]
+}
