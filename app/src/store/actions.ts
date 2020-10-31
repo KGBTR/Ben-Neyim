@@ -8,8 +8,8 @@ import { Comment, CommentRaw } from '@/assets/@types/Comment';
 import { Redditor, RedditorRaw } from '@/assets/@types/Redditor';
 
 export const actions: ActionTree<State, State> & Actions = {
-  async GET_API_REDDITOR_SUBMISSIONS({commit, getters}: AugmentedActionContext){
-    await (await fetch(getters.API_URL_SUBMISSION)).json().then(
+  async GET_API_REDDITOR_SUBMISSIONS({commit, getters, state}: AugmentedActionContext){
+    await (await fetch(getters.API_URL_SUBMISSION, state.API.Options)).json().then(
       (SubmissionsRaw) => {
         const Submissions: Array<Submission> = new Array<Submission>();
         SubmissionsRaw.data.forEach((Submission: SubmissionRaw) => {
@@ -38,14 +38,14 @@ export const actions: ActionTree<State, State> & Actions = {
               ByModerator: false
             }
           })
-        });;
+        });
         commit("SET_SUBMISSIONS", Submissions);
       }
     );
   },
 
-  async GET_API_REDDITOR_COMMENTS({commit, getters}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_COMMENT)).json().then(
+  async GET_API_REDDITOR_COMMENTS({commit, getters, state}: AugmentedActionContext) {
+    await (await fetch(getters.API_URL_COMMENT, state.API.Options)).json().then(
       (CommentsRaw) => {
         const Comments = new Array<Comment>();
         CommentsRaw.data.forEach((Comment: CommentRaw) => {
@@ -61,26 +61,28 @@ export const actions: ActionTree<State, State> & Actions = {
             Score: Comment.score,
             IsSubmitter: Comment.is_submitter,
           })
-        })
+        });
         commit("SET_COMMENTS", Comments);
       }
     );
   },
 
-  async GET_API_USERNAME_AVAILABLE({commit, getters}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_USERNAME_AVAILABLE)).json().then(
-      (UsernameAvailable) => {
-        commit("SET_USERNAME_AVAILABLE", UsernameAvailable.data);
-      }
+  async GET_API_USERNAME_AVAILABLE({commit, getters, state}: AugmentedActionContext) {
+    await (await fetch(getters.API_URL_USERNAME_AVAILABLE, state.API.Options)).json().then(
+      (UsernameAvailable) => commit("SET_USERNAME_AVAILABLE", UsernameAvailable)
     )
   },
 
-  async GET_API_REDDITOR_DATA({commit, getters}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_REDDITOR)).json().then(
+  async GET_API_REDDITOR_DATA({commit, getters, state}: AugmentedActionContext) {
+    await (await fetch(getters.API_URL_REDDITOR, state.API.Options)).json().then(
       (RedditorRawData) => {
         const RedditorRaw: RedditorRaw = RedditorRawData.data;
         const Redditor: Redditor = {
           Username: RedditorRaw.name,
+          UsernameLength: {
+            Max: 20,
+            Min: 3
+          },
           ProfilePhoto: {
             URL: RedditorRaw.icon_img,
             Width: 256,
