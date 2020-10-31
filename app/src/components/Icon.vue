@@ -3,7 +3,7 @@
   <a :class="{'link':true, 'clickable': isClickable}" v-if="link" :href="link" :style="{
     '--width': width,
     '--height': height,
-    '--image-url': url,
+    '--image-url': unescape(url),
     '--radius': borderRadius
   }" target="_blank"></a>
 
@@ -14,7 +14,9 @@
 <script lang="ts">
 import {
   defineComponent
-} from 'vue'
+} from 'vue';
+
+import unescape from 'lodash/unescape';
 
 export default defineComponent({
   name: 'Icon',
@@ -53,7 +55,10 @@ export default defineComponent({
       require: true,
       default: false
     }
-  }
+  },
+  methods: {
+    unescape
+  },
 })
 </script>
 
