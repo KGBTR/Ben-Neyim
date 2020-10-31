@@ -1,13 +1,13 @@
 <template>
-<div class="search success">
+<div :class="{'search':true,'success':GetResultState=='success','failure':GetResultState=='failure'}">
   <div class="search-input">
-    <Icon isClickable="true" url="img/icons/Search.svg" width="24" height="24" @click="search()" />
+    <Icon isClickable=true url="img/icons/Search.svg" width="24" height="24" @click="search()" />
     <input class="text" type="text" @keypress.enter="search()" placeholder="Kullanıcı adını giriniz" v-model="SearchData.Username">
-    <div>Loading...</div>
-    <Icon isClickable="true" :url="`url(${Redditor.ProfilePhoto.URL})`" v-show="Redditor.ProfilePhoto.URL" borderRadius="1em" width="48px" height="48px" :link="`https://reddit.com/user/${ParsedUsername}`" />
+    <div class="loading" v-show="isLoading">🕸</div>
+    <Icon isClickable=true :url="`url(${Redditor.ProfilePhoto.URL})`" v-show="Redditor.ProfilePhoto.URL" borderRadius="1em" width="48px" height="48px" :link="`https://reddit.com/user/${ParsedUsername}`" />
   </div>
-  <div class="caption">
-    Temizsin
+  <div class="caption" v-show="SearchData.Result.State">
+    {{SearchData.Result.Caption}}
   </div>
 </div>
 </template>
@@ -84,12 +84,13 @@
       color: map-get(map-get($Palette, Text), success-dark);
       font-weight: 600;
     }
-
   }
 
   &.failure {
-    color: map-get(map-get($Palette, Text), failure-dark);
-    font-weight: 600;
+    & .caption {
+      color: map-get(map-get($Palette, Text), failure-dark);
+      font-weight: 600;
+    }
   }
 }
 </style>
@@ -112,9 +113,16 @@ type Data = {
   SearchData: {
     Username: string,
     Result: {
-      Caption: ''
-    }
+      Caption: string
+      State: string
+    },
+    IsLoading: true
   }
+}
+
+enum ResultState {
+  Failure = 'failure',
+    Success = 'success'
 }
 
 export default defineComponent({
@@ -122,10 +130,12 @@ export default defineComponent({
   data(): Data {
     return {
       SearchData: {
-        Username: 'EggyTheSad',
+        Username: '',
         Result: {
-          Caption: ''
-        }
+          Caption: '',
+          State: '',
+        },
+        IsLoading: true
       },
     }
   },
@@ -138,6 +148,10 @@ export default defineComponent({
     ParsedUsername(): string {
       const result = /([\w-]+)$/i.exec(this.SearchData.Username)
       return result == null ? "" : result[1];
+    },
+
+    GetResultState(): string {
+      return this.SearchData.Result.State;
     },
 
     ...mapState(['Redditor', 'Search']),
@@ -164,7 +178,8 @@ export default defineComponent({
         'SET_REDDITOR',
         'SET_USERNAME_AVAILABLE',
         'SET_LAST_SUBMISSION_ACTIVITY_DATE',
-        'SET_LAST_COMMENT_ACTIVITY_DATE'
+        'SET_LAST_COMMENT_ACTIVITY_DATE',
+        'RESET_REDDITOR_PROFILE_PHOTO'
       ]
     ),
 
@@ -177,14 +192,36 @@ export default defineComponent({
       ]
     ),
 
-    search(): void {
+    async search(): Promise < void > {
+      this.SearchData.Result.State = ``;
+      this.SearchData.Result.Caption = ``;
+      this.RESET_REDDITOR_PROFILE_PHOTO();
+
       this.SET_REDDITOR_USERNAME(this.ParsedUsername);
 
-      this.GET_API_USERNAME_AVAILABLE();
-      this.GET_API_REDDITOR_DATA();
+      if (this.SearchData.Username.length < 3) {
+        this.SearchData.Result.State = ResultState.Failure;
+        this.SearchData.Result.Caption = `Kullanıcı adı minimum 3 karakterden oluşmalı`;
+        return;
+      }
 
-      this.GET_API_REDDITOR_SUBMISSIONS();
-      this.GET_API_REDDITOR_COMMENTS();
+      await this.GET_API_USERNAME_AVAILABLE();
+
+      if (this.Search.UsernameAvailable) {
+        this.SearchData.Result.State = ResultState.Failure;
+        this.SearchData.Result.Caption = `u/${this.ParsedUsername} böyle bir kullanıcı yok`;
+        return
+      }
+
+      try {
+        await this.GET_API_REDDITOR_DATA();
+
+        await this.GET_API_REDDITOR_SUBMISSIONS();
+        await this.GET_API_REDDITOR_COMMENTS();
+      } catch {
+        this.SearchData.Result.State = ResultState.Failure;
+        this.SearchData.Result.Caption = `API hatası meydana geldi. Lütfen tekrar deneyiniz.`;
+      }
     }
   },
 });
