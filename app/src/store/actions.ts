@@ -67,8 +67,8 @@ export const actions: ActionTree<State, State> & Actions = {
     );
   },
 
-  async GET_API_USERNAME_AVAILABLE({commit, getters, state}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_USERNAME_AVAILABLE, state.API.Options)).json().then(
+  async GET_API_USERNAME_AVAILABLE({commit, getters}: AugmentedActionContext) {
+    await (await fetch(getters.API_URL_USERNAME_AVAILABLE)).json().then(
       (UsernameAvailable) => commit("SET_USERNAME_AVAILABLE", UsernameAvailable)
     )
   },
