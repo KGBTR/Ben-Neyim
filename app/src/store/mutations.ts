@@ -12,12 +12,10 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   
   SET_SUBMISSIONS(state: State, payload: Array<Submission>){
-    debugger;
     state.Redditor.Submissions = payload;
   },
 
   SET_COMMENTS(state: State, payload: Array<Comment>){
-    debugger;
     state.Redditor.Comments = payload;
   },
 
@@ -35,5 +33,9 @@ export const mutations: MutationTree<State> & Mutations = {
 
   SET_LAST_COMMENT_ACTIVITY_DATE(state: State, payload: Date){
     state.Redditor.LastCommentActivityDate = payload;
+  },
+  
+  RESET_REDDITOR_PROFILE_PHOTO(state: State){
+    state.Redditor.ProfilePhoto.URL = '';
   }
 }
