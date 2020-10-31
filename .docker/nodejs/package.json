@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
@@ -16,6 +17,7 @@
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.164",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "@vue/cli-plugin-babel": "~4.5.0",
