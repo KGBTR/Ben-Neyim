@@ -3,6 +3,10 @@ import {Submission} from './Submission'
 
 export type Redditor = {
   Username: string
+  UsernameLength: {
+    Min: number
+    Max: number
+  },
   ProfilePhoto: {
     URL: string
     Width: number
