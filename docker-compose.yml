@@ -1,6 +1,16 @@
 version: "3.7"
 
 services:
+  init:
+    container_name: bulgurlumuyum-init
+    image: node:15.0-alpine
+    volumes:
+      - ./app:/app
+    networks:
+      - net
+    command:
+      - yarn
+      - install
   dev:
     container_name: bulgurlumuyum-dev
     image: bulgurlumuyum:dev
@@ -8,9 +18,12 @@ services:
       - ./app:/app
     networks:
       - net
+    depends_on:
+      - init
     build:
       context: ./.docker/nodejs/
-      target: init-stage
+      target: development-stage
+    env_file: .env
     ports:
       - 8080:8080
       - 8000:8000
@@ -20,10 +33,9 @@ services:
 
   build:
     container_name: bulgurlumuyum-build
-    image: bulgurlumuyum:build
-    build:
-      context: ./.docker/nodejs/
-      target: init-stage
+    image: node:15.0-alpine
+    depends_on:
+      - init
     volumes:
       - ./app:/app
     networks:
@@ -41,12 +53,13 @@ services:
     volumes:
       - ./app/dist:/usr/share/nginx/html
       - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    env_file: .env
     networks:
       - net
     expose:
       - 80
     ports:
-      - "9090:80"
+      - 9090:80
     command:
       - nginx
       - -g
@@ -54,3 +67,4 @@ services:
 
 networks:
   net:
+    driver: bridge
