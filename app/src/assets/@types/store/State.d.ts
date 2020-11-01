@@ -8,15 +8,4 @@ export interface State {
     Suggestion: Array<String>
   },
   Redditor: Redditor,
-  API: {
-    Base:{
-      PushShift: String
-      Reddit: String
-    },
-    Filter: {
-      Submission: String
-      Comment: String
-    },
-    Options: RequestInit
-  }
 }
