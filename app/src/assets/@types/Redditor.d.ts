@@ -3,22 +3,18 @@ import {Submission} from './Submission'
 
 export type Redditor = {
   Username: string
-  UsernameLength: {
-    Min: number
-    Max: number
+  UsernameLength?: {
+    Min?: number
+    Max?: number
   },
   ProfilePhoto: {
     URL: string
-    Width: number
-    Height: number
   }
   Banner: {
     URL: string
-    Width: number
-    Height: number
   }
   IsBanned: boolean
-  PublicDescription: string
+  PublicDescription?: string
   Subscriber: number
   CreatedDate: {
     Raw: Date
@@ -31,15 +27,15 @@ export type Redditor = {
 }
 
 export type RedditorRaw = {
-  icon_img: string
+  icon_img?: string
   name: string,
   created: number,
   created_utc: number,
   subreddit: {
-    banner_img: string
+    banner_img?: string
     user_is_banned: boolean
-    public_description: string
+    public_description?: string
     subscribers: number
-    banner_size: [number, number]
+    banner_size?: [number, number]
   }
 }
