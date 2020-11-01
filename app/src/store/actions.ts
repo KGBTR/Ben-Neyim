@@ -1,18 +1,21 @@
 import { ActionTree } from 'vuex'
+import moment from 'moment'
+moment.locale('tr');
 
 import { State } from '@/assets/@types/store/State'
-import { Actions, AugmentedActionContext } from '@/assets/@types/store/Actions'
+import { Actions } from '@/assets/@types/store/Actions'
 
 import { Submission, SubmissionRaw } from '@/assets/@types/Submission';
 import { Comment, CommentRaw } from '@/assets/@types/Comment';
 import { Redditor, RedditorRaw } from '@/assets/@types/Redditor';
 
 export const actions: ActionTree<State, State> & Actions = {
-  async GET_API_REDDITOR_SUBMISSIONS({commit, getters, state}: AugmentedActionContext){
-    await (await fetch(getters.API_URL_SUBMISSION, state.API.Options)).json().then(
-      (SubmissionsRaw) => {
+  async GET_API_REDDITOR_SUBMISSIONS({commit, getters}){
+    await (await fetch(getters.API_URL_SUBMISSION))
+    .json().then(
+      res => {
         const Submissions: Array<Submission> = new Array<Submission>();
-        SubmissionsRaw.data.forEach((Submission: SubmissionRaw) => {
+        (res.data || res).forEach((Submission: SubmissionRaw) => {
           Submissions.push({
             Title: Submission.title,
             Flair: {
@@ -44,11 +47,12 @@ export const actions: ActionTree<State, State> & Actions = {
     );
   },
 
-  async GET_API_REDDITOR_COMMENTS({commit, getters, state}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_COMMENT, state.API.Options)).json().then(
-      (CommentsRaw) => {
+  async GET_API_REDDITOR_COMMENTS({commit, getters}) {
+    await (await fetch(getters.API_URL_COMMENT)).json()
+    .then(
+      res => {
         const Comments = new Array<Comment>();
-        CommentsRaw.data.forEach((Comment: CommentRaw) => {
+        (res.data || res).forEach((Comment: CommentRaw) => {
           Comments.push({
             Body: Comment.body,
             FullLink: `https://reddit.com${Comment.permalink}`,
@@ -67,16 +71,17 @@ export const actions: ActionTree<State, State> & Actions = {
     );
   },
 
-  async GET_API_USERNAME_AVAILABLE({commit, getters}: AugmentedActionContext) {
+  async GET_API_USERNAME_AVAILABLE({commit, getters}) {
     await (await fetch(getters.API_URL_USERNAME_AVAILABLE)).json().then(
-      (UsernameAvailable) => commit("SET_USERNAME_AVAILABLE", UsernameAvailable)
-    )
+      res => commit("SET_USERNAME_AVAILABLE", res.data || res)
+    );
   },
 
-  async GET_API_REDDITOR_DATA({commit, getters, state}: AugmentedActionContext) {
-    await (await fetch(getters.API_URL_REDDITOR, state.API.Options)).json().then(
-      (RedditorRawData) => {
-        const RedditorRaw: RedditorRaw = RedditorRawData.data;
+  async GET_API_REDDITOR_DATA({commit, getters}) {
+    await (await fetch(getters.API_URL_REDDITOR)).json()
+    .then(
+      res => {
+        const RedditorRaw: RedditorRaw = res.data || res;
         const Redditor: Redditor = {
           Username: RedditorRaw.name,
           UsernameLength: {
@@ -84,14 +89,16 @@ export const actions: ActionTree<State, State> & Actions = {
             Min: 3
           },
           ProfilePhoto: {
-            URL: RedditorRaw.icon_img,
-            Width: 256,
-            Height: 256,
+            URL: RedditorRaw.icon_img?
+            RedditorRaw.icon_img
+            :
+            '',
           },
           Banner: {
-            URL: RedditorRaw.subreddit.banner_img,
-            Width: RedditorRaw.subreddit.banner_size[0],
-            Height: RedditorRaw.subreddit.banner_size[1]
+            URL: RedditorRaw.subreddit.banner_img?
+              RedditorRaw.subreddit.banner_img
+              :
+              '',
           },
           IsBanned: RedditorRaw.subreddit.user_is_banned,
           PublicDescription: RedditorRaw.subreddit.public_description,
@@ -105,8 +112,8 @@ export const actions: ActionTree<State, State> & Actions = {
           Comments: new Array<Comment>(),
           Submissions: new Array<Submission>(),
         };
-        commit("SET_REDDITOR", Redditor)
+        commit("SET_REDDITOR", Redditor);
       }
-    )
+    );
   }
 }
