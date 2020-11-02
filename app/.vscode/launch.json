@@ -20,7 +20,7 @@
       "name": "Launch via NPM",
       "request": "launch",
       "runtimeArgs": [
-        "run-script",
+        "run",
         "serve"
       ],
       "runtimeExecutable": "npm",
