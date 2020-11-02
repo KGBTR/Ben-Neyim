@@ -29,10 +29,12 @@ services:
     ports:
       - 8080:8080
       - 8000:8000
-    # command:
-    #   - yarn
-    #   - serve
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    #For local docker-compose development enviroment
+    command:
+      - yarn
+      - serve
+    #For codespaces or devcontanier development enviroment
+    # command: /bin/sh -c "while sleep 1000; do :; done"
 
   build:
     container_name: bulgurlumuyum-build
