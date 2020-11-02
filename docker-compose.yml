@@ -5,7 +5,7 @@ services:
     container_name: bulgurlumuyum-init
     image: node:15.0-alpine
     volumes:
-      - ./app:/app
+      - ./app:/app:cached
     networks:
       - net
     command:
@@ -15,7 +15,7 @@ services:
     container_name: bulgurlumuyum-dev
     image: bulgurlumuyum:dev
     volumes:
-      - ./app:/app
+      - ./app:/app:cached
     networks:
       - net
     depends_on:
@@ -51,7 +51,7 @@ services:
       - build
     working_dir: /usr/share/nginx/html
     volumes:
-      - ./app/dist:/usr/share/nginx/html
+      - ./app/dist:/usr/share/nginx/html:cached
       - ./.docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     env_file: .env
     networks:

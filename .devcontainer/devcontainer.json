@@ -1,57 +1,80 @@
-// For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.128.0/containers/docker-existing-docker-compose
 // If you want to run as a non-root user in the container, see .devcontainer/docker-compose.yml.
 {
-	"name": "Bulgurlu-Muyum Dev",
+  "name": "BulgurluMuyum-Dev",
 
-	// Update the 'dockerComposeFile' list if you have more compose files or use different names.
-	// The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
-	"dockerComposeFile": [
-		"docker-compose.yml"
-	],
+  // Update the 'dockerComposeFile' list if you have more compose files or use different names.
+  // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
+  "dockerComposeFile": ["docker-compose.yml", "..\\docker-compose.yml"],
 
-	// The 'service' property is the name of the service for the container that VS Code should
-	// use. Update this value and .devcontainer/docker-compose.yml to the real service name.
-	"service": "dev",
+  // The 'service' property is the name of the service for the container that VS Code should
+  // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
+  "service": "dev",
 
-	// The optional 'workspaceFolder' property is the path VS Code should open by default when
-	// connected. This is typically a file mount in .devcontainer/docker-compose.yml
-	"workspaceFolder": "/app",
+  // Uncomment the next line if you want start specific services in your Docker Compose config.
+  // "runServices": [],
 
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"terminal.integrated.shell.linux": "sh",
-		"editor.tabSize": 2,
-		"editor.fontFamily": "Operator Mono Lig Light",
+  // The optional 'workspaceFolder' property is the path VS Code should open by default when
+  // connected. This is typically a file mount in .devcontainer/docker-compose.yml
+  "workspaceFolder": "/app",
+
+  // Set *default* container specific settings.json values on container create.
+  "settings": {
+    "terminal.integrated.shell.linux": "sh",
+    "editor.tabCompletion": "on",
+    "editor.renderWhitespace": "all",
+    "editor.snippetSuggestions": "bottom",
+    "editor.suggestSelection": "recentlyUsedByPrefix",
+    "git.suggestSmartCommit": true,
+    "editor.tabSize": 2,
+    "editor.fontFamily": "Operator Mono Lig Light",
     "editor.fontSize": 19,
     "terminal.integrated.fontFamily": "JetBrainsMono NF",
     "terminal.integrated.fontWeight": "normal",
-    "terminal.integrated.fontSize": 16
-	},
+    "terminal.integrated.fontSize": 16,
 
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
+    "workbench.colorCustomizations": {
+      "terminal.ansiRed": "#ff2b2b",
+      "terminal.ansiBrightRed": "#f84747",
+      "terminal.ansiGreen": "#1fe069",
+      "terminal.ansiBrightGreen": "#50d157",
+      "terminal.ansiYellow": "#ffb120",
+      "terminal.ansiBrightYellow": "#fad016",
+      "terminal.ansiBlue": "#1a60b6",
+      "terminal.ansiMagenta": "#ff004c",
+      "terminal.ansiBrightMagenta": "#ff3b76",
+      "terminal.ansiCyan": "#00c3ff",
+      "terminal.ansiBrightCyan": "#26f8ff",
+      "terminal.ansiBlack": "#26232E",
+      "terminal.ansiBrightBlack": "#727272",
+      "terminal.ansiWhite": "#efe",
+      "terminal.ansiBrightWhite": "#ffe",
+      "bookmarks.lineBackground": "#1c1f26",
+      "bookmarks.lineBorder": "#1a1d24"
+    }
+  },
+
+  "codespaces": {},
+
+  // Add the IDs of extensions you want installed when the container is created.
+  "extensions": [
     "octref.vetur",
-		"wscats.vue",
-		"sdras.vue-vscode-snippets",
+    "wscats.vue",
+    "sdras.vue-vscode-snippets",
     "titiaiev.vue-docs",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "coenraads.bracket-pair-colorizer-2"
-  ]
+  ],
 
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [8080, 8000],
 
-	// Uncomment the next line if you want start specific services in your Docker Compose config.
-	// "runServices": [],
+  // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
+  // "shutdownAction": "none",
 
-	// Uncomment the next line if you want to keep your containers running after VS Code shuts down.
-	// "shutdownAction": "none",
+  // Uncomment the next line to run commands after the container is created - for example installing curl.
+  // "postCreateCommand": "apt-get update && apt-get install -y curl",
 
-	// Uncomment the next line to run commands after the container is created - for example installing curl.
-	// "postCreateCommand": "apt-get update && apt-get install -y curl",
-
-	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "vscode"
+  // Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "asimtahir"
 }
