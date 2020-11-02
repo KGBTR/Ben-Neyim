@@ -1,13 +1,26 @@
 <template>
 <div class="wrapper">
-  <a :class="{'link':true, 'clickable': isClickable}" v-if="link" :href="link" :style="{
-    '--width': width,
-    '--height': height,
-    '--image-url': unescape(url),
-    '--radius': borderRadius
-  }" target="_blank"></a>
+  <a 
+    :class="{'link':true, 'clickable': isClickable}"
+    v-if="link"
+    :href="link"
+    :style="{
+      '--width': width,
+      '--height': height,
+      '--image-url': unescape(url),
+      '--radius': borderRadius
+    }"
+    target="_blank"
+  />
 
-  <img :class="{'icon':true, 'clickable': isClickable}" v-else :src="url" :width="width" :height="height" :alt="alt">
+  <img 
+    :class="{'icon':true, 'clickable': isClickable}"
+    v-else
+    :src="url"
+    :width="width"
+    :height="height"
+    :alt="alt"
+  />
 </div>
 </template>
 

@@ -13,7 +13,7 @@ Sentry.init({
   dsn: process.env['SENTRY_DSN'],
   integrations: [
     new VueIntegration({
-      // Vue: Vue, // FIXME:  Vue 3 entgration failed :(
+      // Vue: Vue, // BUG:  Vue 3 entegration failed :(
       tracing: true,
       logErrors: true,
     }),

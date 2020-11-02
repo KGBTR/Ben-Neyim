@@ -47,6 +47,7 @@ export const getters: GetterTree<State, State> & Getters = {
 
   FORMATTED_LAST_SUBMISSION_ACTIVITY_DATE(state: State): Date{
     // TODO:  Format string date to Date object
+    // FIXME 
     return state.Redditor.LastSubmissionActivityDate;
   },
   

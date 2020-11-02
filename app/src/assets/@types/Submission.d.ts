@@ -12,7 +12,7 @@ export type Submission = {
     TextColor: string
     Text: string
   }
-  // Images: Array<string> // TODO: Thumbnail change to images via carrousel
+  // Images: Array<string> // TODO:  Thumbnail change to images via carrousel
   Thumbnail: {
     URL: string
     Width: number
