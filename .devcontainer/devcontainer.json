@@ -4,7 +4,7 @@
 
   // Update the 'dockerComposeFile' list if you have more compose files or use different names.
   // The .devcontainer/docker-compose.yml file contains any overrides you need/want to make.
-  "dockerComposeFile": ["docker-compose.yml", "..\\docker-compose.yml"],
+  "dockerComposeFile": ["..\\docker-compose.yml"],
 
   // The 'service' property is the name of the service for the container that VS Code should
   // use. Update this value and .devcontainer/docker-compose.yml to the real service name.
@@ -45,15 +45,13 @@
       "terminal.ansiCyan": "#00c3ff",
       "terminal.ansiBrightCyan": "#26f8ff",
       "terminal.ansiBlack": "#26232E",
-      "terminal.ansiBrightBlack": "#727272",
+      "terminal.ansiBrightBlack": "#776f94",
       "terminal.ansiWhite": "#efe",
-      "terminal.ansiBrightWhite": "#ffe",
-      "bookmarks.lineBackground": "#1c1f26",
-      "bookmarks.lineBorder": "#1a1d24"
+      "terminal.ansiBrightWhite": "#ffe"
     }
   },
 
-  "codespaces": {},
+  // "codespaces": {},
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
@@ -67,7 +65,7 @@
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [8080, 8000],
+  "forwardPorts": [8080, 8000]
 
   // Uncomment the next line if you want to keep your containers running after VS Code shuts down.
   // "shutdownAction": "none",
@@ -76,5 +74,4 @@
   // "postCreateCommand": "apt-get update && apt-get install -y curl",
 
   // Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
-  "remoteUser": "asimtahir"
 }

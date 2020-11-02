@@ -11,6 +11,7 @@ services:
     command:
       - yarn
       - install
+
   dev:
     container_name: bulgurlumuyum-dev
     image: bulgurlumuyum:dev
@@ -24,12 +25,16 @@ services:
       context: ./.docker/nodejs/
       target: development-stage
     env_file: .env
+    expose:
+      - 8080
+      - 8000
     ports:
       - 8080:8080
       - 8000:8000
-    command:
-      - yarn
-      - serve
+    # command:
+    #   - yarn
+    #   - serve
+    command: /bin/sh -c "while sleep 1000; do :; done"
 
   build:
     container_name: bulgurlumuyum-build
