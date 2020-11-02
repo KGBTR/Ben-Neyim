@@ -5,7 +5,7 @@ services:
     container_name: bulgurlumuyum-init
     image: node:15.0-alpine
     volumes:
-      - ./app:/app:cached
+      - ./app:/app
     networks:
       - net
     command:
@@ -16,11 +16,9 @@ services:
     container_name: bulgurlumuyum-dev
     image: bulgurlumuyum:dev
     volumes:
-      - ./app:/app:cached
+      - ./app:/app
     networks:
       - net
-    depends_on:
-      - init
     build:
       context: ./.docker/nodejs/
       target: development-stage
