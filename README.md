@@ -1,4 +1,4 @@
-# app
+# Bulgurlu Muyum Web Query Application
 
 ## Project setup
 ```
