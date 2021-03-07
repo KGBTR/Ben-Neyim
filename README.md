@@ -1,4 +1,4 @@
-# Bulgurlu Muyum Web Query Application
+# Ben Neyim Web Query Application
 
 ## Project setup
 ```
